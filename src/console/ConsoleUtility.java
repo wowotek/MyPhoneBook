@@ -3,14 +3,12 @@ package console;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConsoleUtility
 {
 
-    private final boolean log = true;
-    private final boolean debug = true;
+    private boolean log;
+    private boolean debug;
     
     private BufferedWriter out = null;
 
@@ -36,36 +34,55 @@ public class ConsoleUtility
         
         if (this.log == false)
         {
-
-        }
-        else
-        {
-
+            try
+            {
+                this.out.write("\n"+fstring);
+            }
+            catch (IOException ex)
+            {
+                if(this.debug == true)
+                    System.err.println("Error Writing Log");
+            }
         }
         
         if (this.debug == true)
-        {
             System.err.println(fstring);
-        }
     }
     
-    ConsoleUtility()
+    public void err(String str)
     {
+        String fstring = "[  Logs  ]" + str + " ";
+        
+        if (this.log == false)
+        {
+            try
+            {
+                this.out.write("\n"+fstring);
+            }
+            catch (IOException ex)
+            {
+                if(this.debug == true)
+                    System.err.println("Error Writing Log");
+            }
+        }
+        
+        if (this.debug == true)
+            System.err.println(fstring);
+    }
+    
+    ConsoleUtility(boolean log, boolean debug)
+    {
+        this.log = log;
+        this.debug = debug;
+        
         try
         {
-            FileWriter fs = new FileWriter("out.txt", true); //true tells to append data.
-            out = new BufferedWriter(fs);
+            FileWriter fw = new FileWriter("out.txt", true); //true tells to append data.
+            this.out = new BufferedWriter(fw);
         }
         catch (IOException e)
         {
             System.err.println("Error: " + e.getMessage());
-        }
-        finally
-        {
-            if (out != null)
-            {
-                out.close();
-            }
         }
     }
 }

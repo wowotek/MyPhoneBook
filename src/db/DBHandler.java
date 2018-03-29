@@ -44,7 +44,7 @@ public class DBHandler
         }
     }
     
-    public void addContact(Kontak k) {
+    public void addKontak(Kontak k) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO contact(Hp, Nama, Kategori) VALUES (?, ?, ?)");
             
@@ -65,7 +65,7 @@ public class DBHandler
         }
     }
     
-    public void updateMahasiswa(Kontak k) {
+    public void updateKontak(Kontak k) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE contact SET Nama=?, Kategori=? WHERE Hp=?");
             
@@ -86,7 +86,7 @@ public class DBHandler
         }
     }
     
-    public void deleteContact(String NoHP) {
+    public void deleteKontak(String NoHP) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM contact WHERE Hp=?");
