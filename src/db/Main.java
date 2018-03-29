@@ -1,12 +1,9 @@
 package db;
 
 public class Main
-{
-    private static Alat a = new Alat();
-    private static MenuKontak mk = new MenuKontak();
-    
+{  
+    private console.ConsoleApp ca = new console.ConsoleApp();
     public static void main(String[] args)
     {
-        mk.menuUtama();
     }
 }
