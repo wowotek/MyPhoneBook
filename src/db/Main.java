@@ -5,6 +5,21 @@ import javax.swing.SwingUtilities;
 
 public class Main
 {
+    public static void main(String[] args)
+    {      
+        switch(args[0])
+        {
+            case "-g":
+            case "--gui":
+                runGui();
+                break;
+            case "-c":
+            case "--console":
+                runConsole();
+                break;
+        }
+    }
+    
     private static void runGui()
     {
         final gui.FrontMain fm = new gui.FrontMain();
@@ -15,14 +30,9 @@ public class Main
             }
         });
     }
-    public static void main(String[] args)
+    
+    private static void runConsole()
     {
-        switch(args[0])
-        {
-            case "-gui":
-                runGui();
-            default:
-                runGui();
-        }
+        
     }
 }
