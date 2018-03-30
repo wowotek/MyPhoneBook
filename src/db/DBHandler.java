@@ -106,7 +106,7 @@ public class DBHandler
         }
     }
     
-    public ArrayList<Kontak> selectAllMahasiswa() {
+    public ArrayList<Kontak> selectAllKontak() {
         ArrayList<Kontak> lk = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
