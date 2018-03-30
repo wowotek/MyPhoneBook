@@ -1,23 +1,27 @@
 package db;
 
+import console.ConsoleApp;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class Main
 {
+    private static final ConsoleApp ca = new ConsoleApp();
+    
     public static void main(String[] args)
     {      
-        switch(args[0])
-        {
-            case "-g":
-            case "--gui":
-                runGui();
-                break;
-            case "-c":
-            case "--console":
-                runConsole();
-                break;
-        }
+        runConsole();
+//        switch(args[0])
+//        {
+//            case "-g":
+//            case "--gui":
+//                runGui();
+//                break;
+//            case "-c":
+//            case "--console":
+//                runConsole();
+//                break;
+//        }
     }
     
     private static void runGui()
@@ -33,6 +37,6 @@ public class Main
     
     private static void runConsole()
     {
-        
+        ca.run();
     }
 }

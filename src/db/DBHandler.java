@@ -8,39 +8,39 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class DBHandler
+import console.ConsoleUtility;
+
+public final class DBHandler
 {
+    private ConsoleUtility cu = new ConsoleUtility(true, true);
     private Connection conn;
     
     public Connection getConnection() {
         return this.conn;
     }
     
-    DBHandler()
+    public DBHandler()
     {
-        String connectionURL = "jdbc:mysql://localhost/phonebook";
-        Properties properties = new Properties();
-        properties.setProperty("user", "root");
-        properties.setProperty("password", "root");
-        properties.setProperty("useSSL", "false");
-        properties.setProperty("autoReconnect", "true");
-
+        this.InitializeConnection();
+    }
+    
+    public void InitializeConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(connectionURL, properties);
-            // Do something with the MyConnection
-            
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/phonebook?" + "user=root&password=root");
         } 
         catch (ClassNotFoundException | InstantiationException |
                 IllegalAccessException cnfe) {
             // handle any errors
-            System.err.println("Exception: " + cnfe.getMessage());
+            cu.err("Exception: " + cnfe.getMessage());
+            cu.err("Location: InitializeConnection()");
         }
         catch (SQLException ex) {
             // handle any errors
-            System.err.println("SQLException: " + ex.getMessage());
-            System.err.println("SQLState: " + ex.getSQLState());
-            System.err.println("VendorError: " + ex.getErrorCode());
+            cu.err("SQLException: " + ex.getMessage());
+            cu.err("SQLState: " + ex.getSQLState());
+            cu.err("VendorError: " + ex.getErrorCode());
+            cu.err("Location: InitializeConnection()");
         }
     }
     
@@ -54,14 +54,16 @@ public class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                System.err.println("Data telah tersimpan!");
+                cu.err("Data telah tersimpan!");
                 ps.close();
             } else {
                 //Gagal
-                System.err.println("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.");
+                cu.err("Location: addKontak()");
             }
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage());
+            cu.err("Location: addKontak()");
         }
     }
     
@@ -75,14 +77,16 @@ public class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                System.err.println("Data telah tersimpan!");
+                cu.err("Data telah tersimpan!");
                 ps.close();
             } else {
                 //Gagal
-                System.err.println("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.");
+                cu.err("Location: updateKontak()");
             }
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage());
+            cu.err("Location: updateKontak()");
         }
     }
     
@@ -95,14 +99,16 @@ public class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                System.err.println("Data telah tersimpan!");
+                cu.err("Data telah tersimpan!");
                 ps.close();
             } else {
                 //Gagal
-                System.err.println("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.");
+                cu.err("Location: deleteKontak()");
             }
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage());
+            cu.err("Location: updateKontak()");
         }
     }
     
@@ -127,7 +133,8 @@ public class DBHandler
             rs.close();
             ps.close();
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage());
+            cu.err("Location: selectAllKontak()");
         }
         return lk;
     }

@@ -1,21 +1,26 @@
 package console;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConsoleUtility
 {
-
-    private static String os;
 
     private boolean log;
     private boolean debug;
 
     private BufferedWriter out = null;
 
-    ConsoleUtility(boolean log, boolean debug)
+    public ConsoleUtility(boolean log, boolean debug)
     {
         this.log = log;
         this.debug = debug;
@@ -29,60 +34,6 @@ public class ConsoleUtility
         {
             System.err.println("Error: " + e.getMessage());
         }
-
-        this.os = checkOS();
-    }
-
-    private String checkOS()
-    {
-        String _os = System.getProperty("os.name");
-        String ret_os = "null";
-
-        String[] l_os_unix =
-        {
-            "Linux", "Solaris", "SunOS", "FreeBSD", "Irix",
-            "Digital Unix", "NetWare 4.11", "OSF1", "OpenVMS"
-        };
-
-        String[] l_os_macs =
-        {
-            "Mac OS", "Mac OS X"
-        };
-
-        String[] l_os_wint =
-        {
-            "Windows 95", "Windows 98", "Windows Me", "Windows NT",
-            "Windows 2000", "Windows XP", "Windows 2003", "Windows CE"
-        };
-
-        for (String i : l_os_unix)
-        {
-            if (_os.equals(i))
-            {
-                ret_os = "*nix";
-                break;
-            }
-        }
-
-        for (String i : l_os_macs)
-        {
-            if (_os.equals(i))
-            {
-                ret_os = "macs";
-                break;
-            }
-        }
-
-        for (String i : l_os_wint)
-        {
-            if (_os.equals(i))
-            {
-                ret_os = "wint";
-                break;
-            }
-        }
-
-        return ret_os;
     }
 
     public void err(String str, int severity)
@@ -105,7 +56,7 @@ public class ConsoleUtility
 
         String fstring = "[" + strseverity + "]" + str + " ";
 
-        if (this.log == false)
+        if (this.log == true)
         {
             try
             {
@@ -130,7 +81,7 @@ public class ConsoleUtility
     {
         String fstring = "[  Logs  ]" + str + " ";
 
-        if (this.log == false)
+        if (this.log == true)
         {
             try
             {
@@ -151,36 +102,85 @@ public class ConsoleUtility
         }
     }
 
-    public static void cls()
+    public void cls()
     {
-        if ("*nix".equals(os))
+        try
         {
-            System.out.print("\033[H\033[2J");
-        }
-        else if (os.equals("wint"))
-        {
-            try
+            if (System.getProperty("os.name").contains("Windows"))
             {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             }
-            catch (IOException | InterruptedException ex){}
-        }
-        else
-        {
-            try
+            else //untuk linux, ga sempurna
             {
+                System.out.print("\033[2J\033[1;1H");
+                System.out.print('\u000C');
+                System.out.print("\u001b[2J");
                 Runtime.getRuntime().exec("clear");
+                System.out.println("\f");
             }
-            catch (IOException ex){}
         }
-        
+        catch (IOException | InterruptedException ex)
+        {
+        }
+
         System.out.flush();
     }
 
-    public static void pause()
+    public String titleCase(String input_string)
+    {
+        return StringUtils.capitalize(input_string.toLowerCase());
+    }
+    
+    public ArrayList<String> removeDuplicates(ArrayList<String> list)
+    {
+
+        // Store unique items in result.
+        ArrayList<String> result = new ArrayList<>();
+
+        // Record encountered Strings in HashSet.
+        HashSet<String> set = new HashSet<>();
+
+        // Loop over argument list.
+        for (String item : list)
+        {
+
+            // If String is not in set, add it to the list and the set.
+            if (!set.contains(item))
+            {
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
+    }
+
+    public void delay()
+    {
+        try
+        {
+            TimeUnit.SECONDS.sleep(1);
+        }
+        catch (InterruptedException ex)
+        {
+        }
+    }
+
+    public void delay(int Multiplier)
+    {
+        try
+        {
+            TimeUnit.MILLISECONDS.sleep(Multiplier * 10);
+        }
+        catch (InterruptedException ex)
+        {
+        }
+    }
+
+    public void pause()
     {
         Scanner s = new Scanner(System.in);
-
+        
+        System.out.println("Tekan Apasaja Untuk Melanjukan");
         s.nextLine();
     }
 }
