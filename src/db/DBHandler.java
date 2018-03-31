@@ -21,19 +21,30 @@ public final class DBHandler
     
     public DBHandler()
     {
-        this.InitializeConnection();
+        cu.err("Connection Initialization", 5);
+        if(this.InitializeConnection() == true)
+        {
+            cu.err("Connection Successful !", 0);
+        }
+        else
+        {
+            cu.err("Connection Unsuccessful !", 4);
+            System.exit(1); //Force Quit -- perlu di perhatikan, bagusnya ada close dll
+        }
     }
     
-    public void InitializeConnection() {
+    public boolean InitializeConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection("jdbc:mysql://localhost/phonebook?" + "user=root&password=root");
+            return true;
         } 
         catch (ClassNotFoundException | InstantiationException |
                 IllegalAccessException cnfe) {
             // handle any errors
             cu.err("Exception: " + cnfe.getMessage());
             cu.err("Location: InitializeConnection()");
+            return false;
         }
         catch (SQLException ex) {
             // handle any errors
@@ -41,10 +52,11 @@ public final class DBHandler
             cu.err("SQLState: " + ex.getSQLState());
             cu.err("VendorError: " + ex.getErrorCode());
             cu.err("Location: InitializeConnection()");
+            return false;
         }
     }
     
-    public void addKontak(Kontak k) {
+    public boolean addKontak(Kontak k) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO contact(Hp, Nama, Kategori) VALUES (?, ?, ?)");
             
@@ -56,18 +68,21 @@ public final class DBHandler
                 //Sukses
                 cu.err("Data telah tersimpan!");
                 ps.close();
+                return true;
             } else {
                 //Gagal
                 cu.err("Terjadi kesalahan.");
                 cu.err("Location: addKontak()");
+                return false;
             }
         } catch (SQLException ex) {
             cu.err("SQLException: " + ex.getMessage());
             cu.err("Location: addKontak()");
+            return false;
         }
     }
     
-    public void updateKontak(Kontak k) {
+    public boolean updateKontak(Kontak k) {
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE contact SET Nama=?, Kategori=? WHERE Hp=?");
             
@@ -79,14 +94,17 @@ public final class DBHandler
                 //Sukses
                 cu.err("Data telah tersimpan!");
                 ps.close();
+                return true;
             } else {
                 //Gagal
                 cu.err("Terjadi kesalahan.");
                 cu.err("Location: updateKontak()");
+                return false;
             }
         } catch (SQLException ex) {
             cu.err("SQLException: " + ex.getMessage());
             cu.err("Location: updateKontak()");
+            return false;
         }
     }
     
@@ -126,7 +144,7 @@ public final class DBHandler
                 String Nama = rs.getString(2);
                 String Kategori = rs.getString(3);
                 
-                Kontak k = new Kontak(Hp, Nama, Kategori);
+                Kontak k = new Kontak(Nama, Hp, Kategori);
                 lk.add(k);
             }
             

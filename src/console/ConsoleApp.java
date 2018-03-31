@@ -5,10 +5,13 @@ import java.util.Scanner;
 public class ConsoleApp
 {
     private final ConsoleUI cui = new ConsoleUI();
+    private final ConsoleUtility cu = new ConsoleUtility(true, true);
     
     public void run()
     {
-        this.menuUtama();
+        System.out.println(this.cu.titleCase("hAnSeN sAmOsIr"));
+        System.out.println(this.cu.titleCase("tEmAn"));
+        //this.menuUtama();
     }
     
     private boolean menuUtama()
@@ -22,7 +25,7 @@ public class ConsoleApp
             System.out.println(" 3. Ubah Kontak");
             System.out.println(" 0. Exit");
             System.out.println("");
-            System.out.print("Menu >>");
+            System.out.print("Menu >> ");
             System.out.flush();
             switch(scn.nextInt())
             {
@@ -30,10 +33,10 @@ public class ConsoleApp
                     cui.lihatKontakUI();
                     break;
                 case 2:
-                    this.tambahKontak();
+                    cui.tambahKontakUI();
                     break;
                 case 3:
-                    this.ubahKontak();
+                    cui.ubahKontak();
                     break;
                 case 0:
                     if(this.exitConfirmation() == true)
@@ -46,11 +49,6 @@ public class ConsoleApp
                     }
             }
         }
-    }
-    
-    private void tambahKontak()
-    {
-        
     }
     
     private void ubahKontak()

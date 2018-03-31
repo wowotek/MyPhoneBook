@@ -127,57 +127,164 @@ public class ConsoleUI
     }
     //--------------------------- Selesai --------------------------------------
 
-    private void tambahKontakUI()
+    public void tambahKontakUI()
     {
         Scanner scn = new Scanner(System.in);
 
         while (true)
         {
-            String nama, hp, kat;
+            String nama = "";
+            String hp = "";
+            String kat = "";
 
             System.out.flush();
             System.out.println("------------ Tambah Kontak ------------");
+            System.out.println("                           c = karakter");
             System.out.println("    Silahkan Isi Data Kontak: ");
-            System.out.print("        Nama     : ");
+            System.out.print("            Nama (45 c) : ");
             nama = this.cu.titleCase(scn.nextLine());
             System.out.flush();
 
-            System.out.print("        No HP    : ");
+            System.out.print("          No. HP (12 c) : ");
             hp = scn.nextLine();
             System.out.flush();
 
-            System.out.print("        Kategori : ");
+            System.out.print("        Kategori (20 c) : ");
             kat = this.cu.titleCase(scn.nextLine());
             System.out.flush();
 
             this.cu.delay(100);
+
+            //Filter Out the Input
+            if (nama.equals("") || hp.equals("") || kat.equals(""))
+            {
+                System.out.println("Nama/HP/Kategori Tidak Boleh kosong");
+                continue;
+            }
+
+            if (nama.length() > 45 || hp.length() > 12 || kat.length() > 25)
+            {
+                System.out.println("Nama/HP/Kategori Melebihi Batas Maksimal !");
+                continue;
+            }
+
             System.out.println("Informasi Kontak :");
             System.out.println("    Nama     : " + nama);
             System.out.println("    No HP    : " + hp);
             System.out.println("    Kategori : " + kat);
-            System.out.print("Konfirmasi ? (y/n)");
+            System.out.print("Konfirmasi ? (y/n/b(batal)) ");
             System.out.flush();
-            
-            switch(scn.nextLine())
+
+            switch (scn.nextLine())
             {
                 case "1":
                 case "Y":
                 case "y":
                 case "yes":
-                    addthisk();
-                    return;
-                case "0":
+                    Kontak k = new Kontak(nama, hp, kat);
+
+                    if (this.dbh.addKontak(k) == true)
+                    {
+                        System.out.println("Data Berhasil Ditambahkan !");
+                        return;
+                    }
+                    else
+                    {
+                        System.out.println("Terjadi Kesalahan Saat Menambahkan Data!");
+                        return;
+                    }
                 case "2":
                 case "n":
                 case "N":
                 case "no":
                     break;
+                case "0":
+                case "b":
+                    return;
             }
         }
     }
-    
-    private boolean addthisk()
+
+    public boolean ubahKontak()
     {
-        return true;
+        while (true)
+        {
+            Scanner s = new Scanner(System.in);
+            Kontak ki = null;
+            Kontak kp;
+
+            String hpi, namai, kati;
+
+            //get data
+            ArrayList<Kontak> k = this.dbh.selectAllKontak();
+
+            System.out.println("------------ Tambah Kontak ------------");
+            System.out.print("    No HP               : ");
+            hpi = s.nextLine();
+            System.out.flush();
+
+            //Filter the Input
+            for (Kontak i : k)
+            {
+                if (i.getNoHP().equals(hpi))
+                {
+                    ki = i;
+                    break;
+                }
+            }
+
+            if (ki == null)
+            {
+                System.out.println("Kontak yang akan anda rubah tidak ditemukan !");
+                continue;
+            }
+
+            System.out.println("    Nama Sebelumnya     : " + ki.getNama());
+            System.out.print("           Ubah Menjadi : ");
+            namai = this.cu.titleCase(s.nextLine());
+            System.out.flush();
+            System.out.println("    Kategori Sebelumnya : " + ki.getKategori());
+            System.out.print("           Ubah Menjadi : ");
+            kati = this.cu.titleCase(s.nextLine());
+            System.out.flush();
+
+            //print konfirmasi
+            System.out.println("------------ Konfirmasi Ubah ------------");
+            System.out.println("                  No HP : " + ki.getNoHP());
+            System.out.println("    Nama Sebelumnya     : " + ki.getNama());
+            System.out.println("         Setelah Diubah : " + namai);
+            System.out.println("    Kategori Sebelumnya : " + ki.getKategori());
+            System.out.println("         Setelah Diubah : " + kati);
+            System.out.print("Konfirmasi ? (y/n/b(batal)) ");
+            System.out.flush();
+
+            switch (s.nextLine())
+            {
+                case "1":
+                case "Y":
+                case "y":
+                case "yes":
+                    kp = new Kontak(namai, hpi, kati);
+
+                    if (this.dbh.updateKontak(kp) == true)
+                    {
+                        System.out.println("Kontak Berhasil Diubah !");
+                        return true;
+                    }
+                    else
+                    {
+                        System.out.println("Terjadi Kesalahan Saat Mengubah Kontak!");
+                        return false;
+                    }
+                case "2":
+                case "n":
+                case "N":
+                case "no":
+                    break;
+                case "0":
+                case "b":
+                    return false;
+            }
+        }
     }
 }

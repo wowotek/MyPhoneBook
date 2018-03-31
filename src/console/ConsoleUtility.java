@@ -1,13 +1,11 @@
 package console;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,16 +40,24 @@ public class ConsoleUtility
 
         switch (severity)
         {
+            case 0:
+                strseverity = "  Pass  ";
+                break;
             case 1:
                 strseverity = "Caution ";
+                break;
             case 2:
                 strseverity = "Warning ";
+                break;
             case 3:
                 strseverity = " Severe ";
+                break;
             case 4:
                 strseverity = "Critical";
+                break;
             default:
                 strseverity = "  Logs  ";
+                break;
         }
 
         String fstring = "[" + strseverity + "]" + str + " ";
@@ -128,9 +134,27 @@ public class ConsoleUtility
 
     public String titleCase(String input_string)
     {
-        return StringUtils.capitalize(input_string.toLowerCase());
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : input_string.toLowerCase().toCharArray())
+        {
+            if (Character.isSpaceChar(c))
+            {
+                nextTitleCase = true;
+            }
+            else if (nextTitleCase)
+            {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
-    
+
     public ArrayList<String> removeDuplicates(ArrayList<String> list)
     {
 
@@ -144,7 +168,7 @@ public class ConsoleUtility
         for (String item : list)
         {
 
-            // If String is not in set, add it to the list and the set.
+            // If String is not in set, add it to the list an0d the set.
             if (!set.contains(item))
             {
                 result.add(item);
@@ -179,7 +203,7 @@ public class ConsoleUtility
     public void pause()
     {
         Scanner s = new Scanner(System.in);
-        
+
         System.out.println("Tekan Apasaja Untuk Melanjukan");
         s.nextLine();
     }

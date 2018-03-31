@@ -269,6 +269,11 @@ public class FrontMain extends javax.swing.JFrame
         //pass
     }//GEN-LAST:event_button4ActionPerformed
 
+    private void updateList()
+    {
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
