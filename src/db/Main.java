@@ -6,11 +6,15 @@ import javax.swing.SwingUtilities;
 
 public class Main
 {
-    private static final ConsoleApp ca = new ConsoleApp();
+    private static ConsoleApp ca;
     
     public static void main(String[] args)
     {      
-        runConsole();
+        //ca = new ConsoleApp();
+        
+        //runConsole();
+        runGui();
+        
 //        switch(args[0])
 //        {
 //            case "-g":
@@ -27,12 +31,13 @@ public class Main
     private static void runGui()
     {
         final gui.FrontMain fm = new gui.FrontMain();
-        
-        SwingUtilities.invokeLater(new Thread (){
-            public void run() {
-                fm.setVisible(true);
-            }
-        });
+        fm.setVisible(true);
+//        
+//        SwingUtilities.invokeLater(new Thread (){
+//            public void run() {
+//                fm.setVisible(true);
+//            }
+//        });
     }
     
     private static void runConsole()

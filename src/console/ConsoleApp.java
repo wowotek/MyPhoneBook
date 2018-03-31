@@ -9,9 +9,7 @@ public class ConsoleApp
     
     public void run()
     {
-        System.out.println(this.cu.titleCase("hAnSeN sAmOsIr"));
-        System.out.println(this.cu.titleCase("tEmAn"));
-        //this.menuUtama();
+        this.menuUtama();
     }
     
     private boolean menuUtama()

@@ -1,6 +1,15 @@
-
 package gui;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import db.DBHandler;
+import db.Kontak;
+import console.ConsoleUtility;
+import java.util.ArrayList;
 /**
  *
  * @author Aurelia
@@ -8,11 +17,15 @@ package gui;
 public class FrontMain extends javax.swing.JFrame
 {
 
+    private DBHandler db;
+    private final ConsoleUtility cu = new ConsoleUtility(true, true);
+    
     /**
      * Creates new form FrontMain
      */
     public FrontMain()
     {
+        db = new DBHandler();
         initComponents();
     }
 
@@ -85,24 +98,6 @@ public class FrontMain extends javax.swing.JFrame
 
         jTree1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Kategori");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Dosen");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Pratyaksa");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Radius");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Jeffry Lempas");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Teman");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Anggi Anggara");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Aurelia Gabriele");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Hansen");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Calvin");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane1.setViewportView(jTree1);
         jTree1.getAccessibleContext().setAccessibleName("KontakTree");
@@ -266,14 +261,61 @@ public class FrontMain extends javax.swing.JFrame
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_button4ActionPerformed
     {//GEN-HEADEREND:event_button4ActionPerformed
-        //pass
+        updateTree();
     }//GEN-LAST:event_button4ActionPerformed
 
-    private void updateList()
+    private void updateTree()
     {
+        this.cu.err("Updating List");
+        jTree1.clearSelection();
         
+        int tinggi = jTree1.getHeight();
+        ArrayList<Integer> expandedRow = new ArrayList<>();
+        
+        for(int i=0; i<tinggi; i++)
+        {
+            if(jTree1.isCollapsed(i) == true)
+            {
+                
+            }
+            else
+            {
+                expandedRow.add(i);
+            }
+        }
+        
+        DefaultTreeModel dm = (DefaultTreeModel) jTree1.getModel();
+        DefaultMutableTreeNode kategori = (DefaultMutableTreeNode) dm.getRoot();
+        
+        kategori.removeAllChildren(); // delete semua sub categori;
+        
+        ArrayList<Kontak> k = this.db.selectAllKontak();
+        ArrayList<String> ks = new ArrayList<>();
+        
+        for(Kontak i: k){ks.add(i.getKategori());}
+        ks = this.cu.removeDuplicates(ks);
+        
+        for(String i: ks)
+        {
+            DefaultMutableTreeNode kat =  new DefaultMutableTreeNode(i);
+            for(Kontak j: k)
+            {
+                if(j.getKategori().equals(i))
+                {
+                    kat.add(new DefaultMutableTreeNode(j.getNama()));
+                }
+            }
+            
+            kategori.add(kat);
+        }
+
+        dm.reload();
+        for(int i=0; i<expandedRow.size(); i++)
+        {
+            jTree1.expandRow(expandedRow.get(i));
+        }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -314,14 +356,14 @@ public class FrontMain extends javax.swing.JFrame
         //</editor-fold>
 
         /* Create and display the form */
-        System.out.println("Hello this is front main");
-//        java.awt.EventQueue.invokeLater(new Runnable()
-//        {
-//            public void run()
-//            {
-//                new FrontMain().setVisible(true);
-//            }
-//        });
+        System.err.println("Hello this is front main");
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                new FrontMain().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

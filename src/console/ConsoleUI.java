@@ -11,9 +11,13 @@ import java.util.Scanner;
 public class ConsoleUI
 {
 
-    private final DBHandler dbh = new DBHandler();
+    private DBHandler dbh;
     private final ConsoleUtility cu = new ConsoleUtility(true, true);
 
+    ConsoleUI()
+    {
+         dbh = new DBHandler();
+    }
     //------------------------- Lihat Kontak -----------------------------------
     private void printKontak()
     {
