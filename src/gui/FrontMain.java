@@ -10,6 +10,7 @@ import db.DBHandler;
 import db.Kontak;
 import console.ConsoleUtility;
 import java.awt.Color;
+import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreeSelectionModel;
@@ -94,6 +95,13 @@ public class FrontMain extends javax.swing.JFrame
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jPanel2.setBackground(new java.awt.Color(253, 152, 96));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                jPanel2MouseEntered(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/img/Text_Logo_Resize.png"))); // NOI18N
 
@@ -244,6 +252,13 @@ public class FrontMain extends javax.swing.JFrame
         );
 
         VersionLabel.setText("VersionLabel");
+        VersionLabel.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                VersionLabelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -337,10 +352,8 @@ public class FrontMain extends javax.swing.JFrame
 
     private void TambahButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TambahButtonActionPerformed
     {//GEN-HEADEREND:event_TambahButtonActionPerformed
-        updateTree();
         TambahKontak tk = new TambahKontak(this.db);
         tk.setVisible(true);
-        updateTree();
     }//GEN-LAST:event_TambahButtonActionPerformed
 
     private void HapusButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_HapusButtonActionPerformed
@@ -432,6 +445,17 @@ public class FrontMain extends javax.swing.JFrame
             this.cu.err("Non 'Kontak' Node Selected", 2);
         }
     }//GEN-LAST:event_EditButtonActionPerformed
+
+    private void jPanel2MouseEntered(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jPanel2MouseEntered
+    {//GEN-HEADEREND:event_jPanel2MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel2MouseEntered
+
+    private void VersionLabelMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_VersionLabelMouseClicked
+    {//GEN-HEADEREND:event_VersionLabelMouseClicked
+        JOptionPane.showMessageDialog(this,
+                                    this.cu.getDevInfo());
+    }//GEN-LAST:event_VersionLabelMouseClicked
 
     private void updateTree()
     {

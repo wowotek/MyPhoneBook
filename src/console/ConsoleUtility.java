@@ -13,13 +13,32 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
-    public String MyPhoneBookVersion = "0.1.15";
+    public String MyPhoneBookVersion = "0.1.18";
     public int ConnectionRetryTimes = 3;
 
     private boolean log;
     private boolean debug;
 
     private BufferedWriter out = null;
+
+    public String getDevInfo()
+    {
+        String Dev1 = "Anderson";
+        String Dev2 = "Aurelia Gabriele";
+        String Dev3 = "Erlangga Ibrahim";
+
+        String WD1 = "Console Dev, Documentation, Give Us lot of Coffee !";
+        String WD2 = "GUI Designer, Console Dev, Give Us lot of Food and Love :)";
+        String WD3 = "GUI Designer, Console Dev, SQL";
+
+        String fin
+                = Dev1 + "\n  - " + WD1 + "\n"
+                + Dev2 + "\n  - " + WD2 + "\n"
+                + Dev3 + "\n  - " + WD3 + "\n\n"
+                + "GUI Version : " + this.MyPhoneBookVersion;
+
+        return fin;
+    }
 
     public ConsoleUtility(boolean log, boolean debug)
     {

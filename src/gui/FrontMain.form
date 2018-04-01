@@ -66,6 +66,9 @@
           <Color blue="60" green="98" red="fd" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel2MouseEntered"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -353,6 +356,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="VersionLabel"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="VersionLabelMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

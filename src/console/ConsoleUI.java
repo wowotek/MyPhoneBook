@@ -13,11 +13,12 @@ public class ConsoleUI
 
     private DBHandler dbh;
     private final ConsoleUtility cu = new ConsoleUtility(true, true);
-
-    ConsoleUI()
+    
+    ConsoleUI(DBHandler dbh)
     {
-         dbh = new DBHandler();
+        this.dbh = dbh;
     }
+
     //------------------------- Lihat Kontak -----------------------------------
     private void printKontak()
     {
@@ -30,7 +31,7 @@ public class ConsoleUI
         {
             System.out.println("    <---------->");
             System.out.println("     Nama     : " + i.getNama());
-            System.out.println("     No HP    : " + i.getNoHP());
+            System.out.println("     No HP    : " + cu.parseHP(i.getNoHP()));
             System.out.println("     Kategori : " + i.getKategori());
             System.out.println("    <---------->");
             System.out.println("");
@@ -59,7 +60,7 @@ public class ConsoleUI
             {
                 System.out.println("    <---------->");
                 System.out.println("     Nama     : " + i.getNama());
-                System.out.println("     No HP    : " + i.getNoHP());
+                System.out.println("     No HP    : " + cu.parseHP(i.getNoHP()));
                 System.out.println("     Kategori : " + i.getKategori());
                 System.out.println("    <---------->");
                 System.out.println("");
@@ -96,11 +97,18 @@ public class ConsoleUI
             System.out.println("    " + (i + 1) + ". " + kat.get(i));
         }
         System.out.println("    " + (kat.size() + 1) + ". Semua");
+        System.out.println("    0. Kembali");
         while (true)
         {
             System.out.print("Pilih Kategori >> ");
             is = s.nextInt();
             System.out.flush();
+
+            if (is == 0)
+            {
+                return "b";
+            }
+
             if (is == kat.size() + 1)
             {
                 return "Semua";
@@ -123,6 +131,12 @@ public class ConsoleUI
         if (ik.equals("Semua"))
         {
             this.printKontak();
+        }
+        else if (ik.equals("b"))
+        {
+            System.out.println("");
+            System.out.flush();
+            return;
         }
         else
         {
@@ -174,7 +188,7 @@ public class ConsoleUI
 
             System.out.println("Informasi Kontak :");
             System.out.println("    Nama     : " + nama);
-            System.out.println("    No HP    : " + hp);
+            System.out.println("    No HP    : " + cu.parseHP(hp));
             System.out.println("    Kategori : " + kat);
             System.out.print("Konfirmasi ? (y/n/b(batal)) ");
             System.out.flush();
@@ -222,7 +236,7 @@ public class ConsoleUI
             //get data
             ArrayList<Kontak> k = this.dbh.selectAllKontak();
 
-            System.out.println("------------ Tambah Kontak ------------");
+            System.out.println("------------ Ubah Kontak ------------");
             System.out.print("    No HP               : ");
             hpi = s.nextLine();
             System.out.flush();
@@ -254,7 +268,7 @@ public class ConsoleUI
 
             //print konfirmasi
             System.out.println("------------ Konfirmasi Ubah ------------");
-            System.out.println("                  No HP : " + ki.getNoHP());
+            System.out.println("                  No HP : " + cu.parseHP(ki.getNoHP()));
             System.out.println("    Nama Sebelumnya     : " + ki.getNama());
             System.out.println("         Setelah Diubah : " + namai);
             System.out.println("    Kategori Sebelumnya : " + ki.getKategori());
@@ -288,6 +302,76 @@ public class ConsoleUI
                 case "0":
                 case "b":
                     return false;
+            }
+        }
+    }
+
+    public void hapusKontak()
+    {
+        while (true)
+        {
+            Scanner s = new Scanner(System.in);
+            Kontak ki = null;
+            Kontak kp;
+
+            String hpi, namai, kati;
+
+            //get data
+            ArrayList<Kontak> k = this.dbh.selectAllKontak();
+
+            System.out.println("------------ Hapus Kontak ------------");
+            System.out.print("    No HP : ");
+            hpi = s.nextLine();
+            System.out.flush();
+
+            //Filter the Input
+            for (Kontak i : k)
+            {
+                if (i.getNoHP().equals(hpi))
+                {
+                    ki = i;
+                    break;
+                }
+            }
+
+            if (ki == null)
+            {
+                System.out.println("Kontak yang akan anda hapus tidak ditemukan !");
+                continue;
+            }
+
+            //print konfirmasi
+            System.out.println("------------ Konfirmasi Hapus ------------");
+            System.out.println("                  No HP : " + cu.parseHP(ki.getNoHP()));
+            System.out.println("                   Nama : " + ki.getNama());
+            System.out.println("               Kategori : " + ki.getKategori());
+            System.out.print("Konfirmasi ? (y/n/b(batal)) ");
+            System.out.flush();
+
+            switch (s.nextLine())
+            {
+                case "1":
+                case "Y":
+                case "y":
+                case "yes":
+                    if (this.dbh.deleteKontak(ki.getNoHP()) == true)
+                    {
+                        System.out.println("Kontak Berhasil Dihapus !");
+                        return;
+                    }
+                    else
+                    {
+                        System.out.println("Terjadi Kesalahan Saat Menghapus Kontak!");
+                        return;
+                    }
+                case "2":
+                case "n":
+                case "N":
+                case "no":
+                    break;
+                case "0":
+                case "b":
+                    return;
             }
         }
     }

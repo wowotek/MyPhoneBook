@@ -202,7 +202,7 @@ public class TambahKontak extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             TambahNamaTXT.setBackground(Color.red);
         }
-        else if(nama.equals(""))
+        else if (nama.equals(""))
         {
             JOptionPane.showMessageDialog(this,
                     "Nama Tidak Bisa Kosong !",
@@ -218,7 +218,7 @@ public class TambahKontak extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             TambahHPTXT.setBackground(Color.red);
         }
-        else if(hp.equals(""))
+        else if (hp.equals(""))
         {
             JOptionPane.showMessageDialog(this,
                     "No Handphone Tidak Bisa Kosong !",
@@ -226,7 +226,7 @@ public class TambahKontak extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             TambahHPTXT.setBackground(Color.red);
         }
-        else if (kategori.length() > 25 )
+        else if (kategori.length() > 25)
         {
             JOptionPane.showMessageDialog(this,
                     "Kategori Tidak Bisa Lebih Dari 25 Karakter !",
@@ -234,7 +234,7 @@ public class TambahKontak extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             TambahKategoriTXT.setBackground(Color.red);
         }
-        else if(kategori.equals(""))
+        else if (kategori.equals(""))
         {
             JOptionPane.showMessageDialog(this,
                     "Kategori Tidak Bisa Kosong",
@@ -247,26 +247,24 @@ public class TambahKontak extends javax.swing.JFrame
             TambahNamaTXT.setBackground(Color.white);
             TambahHPTXT.setBackground(Color.white);
             TambahKategoriTXT.setBackground(Color.white);
-            
+
             TambahNamaTXT.setText(nama);
             TambahHPTXT.setText(hp);
             TambahKategoriTXT.setText(kategori);
-            
-            if(this.db.addKontak(new Kontak(nama, hp, kategori)) == true)
+
+            if (this.db.addKontak(new Kontak(nama, hp, kategori)) == true)
             {
-                JOptionPane.showMessageDialog(this, 
-                    "Data Berhasil Ditambahkan");
+                JOptionPane.showMessageDialog(this,
+                        "Data Berhasil Ditambahkan");
             }
             else
             {
                 JOptionPane.showMessageDialog(this,
-                    "Data tidak bisa ditambahkan !",
-                    "Database Error",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Data tidak bisa ditambahkan !",
+                        "Database Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
-            
-            
-            
+
             super.dispose();
         }
     }//GEN-LAST:event_TambahKontakButtonActionPerformed
