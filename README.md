@@ -21,7 +21,7 @@ Sekarang Aplikasi ini adalah OpenSource
 4. Jalankan aplikasi dengan : 
         $ cd /Tempat/File/MyPhoneBook/
         $ sudo apt-get install unzip
-        $ unzip MyPhoneBook_0.1.18.zip -d .
+        $ unzip <file_download_aplikasi>.zip -d .
 
    jalankan dengan `--gui` or `-g` untuk menggunakan GUI
    jalankan dengan `--console` or `-c` untu menggunakan Console
