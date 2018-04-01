@@ -5,6 +5,13 @@
  */
 package gui;
 
+import console.ConsoleUtility;
+import db.DBHandler;
+import db.Kontak;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Aurelia
@@ -12,12 +19,30 @@ package gui;
 public class EditKontak extends javax.swing.JFrame
 {
 
+    private ConsoleUtility cu = new ConsoleUtility(true, true);
+    private Kontak k;
+    private DBHandler db;
+
     /**
      * Creates new form EditKontak
      */
-    public EditKontak()
+    public EditKontak(Kontak k, DBHandler db)
     {
+        this.k = k;
+        this.db = db;
         initComponents();
+        disableHP();
+    }
+
+    private void disableHP()
+    {
+        NamaText.setText(k.getNama());
+        KategoriText.setText(k.getKategori());
+        HPText.setText(k.getNoHP(true));
+        HPText.setDisabledTextColor(Color.black);
+        HPText.setFont(new Font("Courier", Font.ITALIC, 12));
+        HPText.setEditable(false);
+        HPText.setEnabled(false);
     }
 
     /**
@@ -36,12 +61,12 @@ public class EditKontak extends javax.swing.JFrame
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        KategoriText = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        HPText = new javax.swing.JTextField();
+        NamaText = new javax.swing.JTextField();
+        EditButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +109,14 @@ public class EditKontak extends javax.swing.JFrame
 
         jLabel4.setText("Kategori");
 
+        HPText.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                HPTextActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -96,9 +129,9 @@ public class EditKontak extends javax.swing.JFrame
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField1))
+                    .addComponent(NamaText)
+                    .addComponent(HPText)
+                    .addComponent(KategoriText))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -107,19 +140,26 @@ public class EditKontak extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(NamaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(HPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(KategoriText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Konfirmasi Edit Kontak");
+        EditButton.setText("Konfirmasi Edit Kontak");
+        EditButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                EditButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -130,7 +170,7 @@ public class EditKontak extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(EditButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -140,11 +180,11 @@ public class EditKontak extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.getAccessibleContext().setAccessibleName("EditKontakBtn");
+        EditButton.getAccessibleContext().setAccessibleName("EditKontakBtn");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,6 +199,51 @@ public class EditKontak extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void HPTextActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_HPTextActionPerformed
+    {//GEN-HEADEREND:event_HPTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HPTextActionPerformed
+
+    private void EditButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EditButtonActionPerformed
+    {//GEN-HEADEREND:event_EditButtonActionPerformed
+        String nama = this.cu.titleCase(NamaText.getText());
+        String hp = k.getNoHP();
+        String kategori = this.cu.titleCase(KategoriText.getText());
+
+        Object[] options =
+        {
+            "Ya",
+            "Tidak"
+        };
+
+        int n = JOptionPane.showOptionDialog(this,
+                ("Apakah Anda Yakin Mengubah Data ?"),
+                "Konfirmasi Perbaharuan Data",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (n == 0)
+        {
+            Kontak nk = new Kontak(nama, hp, kategori);
+            if (this.db.updateKontak(nk) == true)
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Data Berhasil Diperbarui");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Data " + k.getNoHP() + " Gagal diperbaharui !",
+                        "Gagal Memperbarui Data",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        super.dispose();
+    }//GEN-LAST:event_EditButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,17 +285,20 @@ public class EditKontak extends javax.swing.JFrame
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new EditKontak().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable()
+//        {
+//            public void run()
+//            {
+//                new EditKontak().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton EditButton;
+    private javax.swing.JTextField HPText;
+    private javax.swing.JTextField KategoriText;
+    private javax.swing.JTextField NamaText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -219,8 +307,5 @@ public class EditKontak extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

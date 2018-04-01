@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
+    public String MyPhoneBookVersion = "0.1.15";
+    public int ConnectionRetryTimes = 3;
+
     private boolean log;
     private boolean debug;
 
@@ -198,6 +201,23 @@ public class ConsoleUtility
         catch (InterruptedException ex)
         {
         }
+    }
+
+    public String parseHP(String HP)
+    {
+        char[] hp = HP.toCharArray();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < hp.length; i++)
+        {
+            sb.append(hp[i]);
+            if ((i + 1) % 3 == 0 && i < hp.length - 1)
+            {
+                sb.append("-");
+            }
+        }
+
+        return sb.toString();
     }
 
     public void pause()

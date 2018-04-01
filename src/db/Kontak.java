@@ -2,10 +2,13 @@ package db;
 
 public class Kontak
 {
+
+    private console.ConsoleUtility cu = new console.ConsoleUtility(true, true);
+
     private String Nama;
     private String NoHP;
     private String Kategori;
-    
+
     public Kontak(String Nama, String NoHP, String Kategori)
     {
         this.Nama = Nama;
@@ -21,6 +24,12 @@ public class Kontak
     public String getNoHP()
     {
         return NoHP;
+    }
+
+    public String getNoHP(boolean i)
+    {
+
+        return this.cu.parseHP(NoHP);
     }
 
     public String getKategori()

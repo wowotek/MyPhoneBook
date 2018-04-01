@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 public class Main
 {
     private static ConsoleApp ca;
+    private static DBHandler db = new DBHandler();
     
     public static void main(String[] args)
     {      
@@ -30,7 +31,7 @@ public class Main
     
     private static void runGui()
     {
-        final gui.FrontMain fm = new gui.FrontMain();
+        final gui.FrontMain fm = new gui.FrontMain(db);
         fm.setVisible(true);
 //        
 //        SwingUtilities.invokeLater(new Thread (){

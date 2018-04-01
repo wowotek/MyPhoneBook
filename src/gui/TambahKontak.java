@@ -5,6 +5,12 @@
  */
 package gui;
 
+import console.ConsoleUtility;
+import db.DBHandler;
+import db.Kontak;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Aurelia
@@ -12,11 +18,12 @@ package gui;
 public class TambahKontak extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form TambahKontak
-     */
-    public TambahKontak()
+    private DBHandler db;
+    private final ConsoleUtility cu = new ConsoleUtility(true, true);
+
+    public TambahKontak(DBHandler db)
     {
+        this.db = db;
         initComponents();
     }
 
@@ -37,10 +44,11 @@ public class TambahKontak extends javax.swing.JFrame
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        TambahNamaTXT = new javax.swing.JTextField();
+        TambahHPTXT = new javax.swing.JTextField();
+        TambahKategoriTXT = new javax.swing.JTextField();
+        TambahKontakButton = new javax.swing.JButton();
+        BatalButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tambahkan Kontak");
@@ -61,11 +69,11 @@ public class TambahKontak extends javax.swing.JFrame
 
         jLabel5.setText("Kategori");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener()
+        TambahNamaTXT.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jTextField1ActionPerformed(evt);
+                TambahNamaTXTActionPerformed(evt);
             }
         });
 
@@ -81,9 +89,9 @@ public class TambahKontak extends javax.swing.JFrame
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(TambahKategoriTXT)
+                    .addComponent(TambahHPTXT, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TambahNamaTXT, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -92,19 +100,35 @@ public class TambahKontak extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TambahNamaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TambahHPTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TambahKategoriTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Tambahkan Kontak");
+        TambahKontakButton.setText("Tambahkan Kontak");
+        TambahKontakButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                TambahKontakButtonActionPerformed(evt);
+            }
+        });
+
+        BatalButton.setText("Batal");
+        BatalButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                BatalButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,7 +142,10 @@ public class TambahKontak extends javax.swing.JFrame
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(TambahKontakButton, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BatalButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -134,11 +161,13 @@ public class TambahKontak extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TambahKontakButton, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(BatalButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.getAccessibleContext().setAccessibleName("AddKontakBtn");
+        TambahKontakButton.getAccessibleContext().setAccessibleName("AddKontakBtn");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,10 +183,98 @@ public class TambahKontak extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTextField1ActionPerformed
-    {//GEN-HEADEREND:event_jTextField1ActionPerformed
+    private void TambahNamaTXTActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TambahNamaTXTActionPerformed
+    {//GEN-HEADEREND:event_TambahNamaTXTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_TambahNamaTXTActionPerformed
+
+    private void TambahKontakButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TambahKontakButtonActionPerformed
+    {//GEN-HEADEREND:event_TambahKontakButtonActionPerformed
+        String nama = this.cu.titleCase(TambahNamaTXT.getText());
+        String hp = this.cu.titleCase(TambahHPTXT.getText());
+        String kategori = this.cu.titleCase(TambahKategoriTXT.getText());
+
+        if (nama.length() > 45)
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Nama Tidak Bisa Lebih dari 45 Karakter!",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahNamaTXT.setBackground(Color.red);
+        }
+        else if(nama.equals(""))
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Nama Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahNamaTXT.setBackground(Color.red);
+        }
+        else if (hp.length() > 12)
+        {
+            JOptionPane.showMessageDialog(this,
+                    "No Handphone Tidak Bisa Lebih Dari 12 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahHPTXT.setBackground(Color.red);
+        }
+        else if(hp.equals(""))
+        {
+            JOptionPane.showMessageDialog(this,
+                    "No Handphone Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahHPTXT.setBackground(Color.red);
+        }
+        else if (kategori.length() > 25 )
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Kategori Tidak Bisa Lebih Dari 25 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahKategoriTXT.setBackground(Color.red);
+        }
+        else if(kategori.equals(""))
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Kategori Tidak Bisa Kosong",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TambahKategoriTXT.setBackground(Color.red);
+        }
+        else
+        {
+            TambahNamaTXT.setBackground(Color.white);
+            TambahHPTXT.setBackground(Color.white);
+            TambahKategoriTXT.setBackground(Color.white);
+            
+            TambahNamaTXT.setText(nama);
+            TambahHPTXT.setText(hp);
+            TambahKategoriTXT.setText(kategori);
+            
+            if(this.db.addKontak(new Kontak(nama, hp, kategori)) == true)
+            {
+                JOptionPane.showMessageDialog(this, 
+                    "Data Berhasil Ditambahkan");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this,
+                    "Data tidak bisa ditambahkan !",
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+            
+            
+            super.dispose();
+        }
+    }//GEN-LAST:event_TambahKontakButtonActionPerformed
+
+    private void BatalButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_BatalButtonActionPerformed
+    {//GEN-HEADEREND:event_BatalButtonActionPerformed
+        super.dispose();
+    }//GEN-LAST:event_BatalButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,17 +316,21 @@ public class TambahKontak extends javax.swing.JFrame
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new TambahKontak().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable()
+//        {
+//            public void run()
+//            {
+//                new TambahKontak().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton BatalButton;
+    private javax.swing.JTextField TambahHPTXT;
+    private javax.swing.JTextField TambahKategoriTXT;
+    private javax.swing.JButton TambahKontakButton;
+    private javax.swing.JTextField TambahNamaTXT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -217,8 +338,5 @@ public class TambahKontak extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

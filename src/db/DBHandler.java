@@ -21,15 +21,29 @@ public final class DBHandler
     
     public DBHandler()
     {
-        cu.err("Connection Initialization", 5);
-        if(this.InitializeConnection() == true)
+        cu.err("Connection Initialization...", 5);
+        boolean failed = false;
+        int i;
+        for(i=0; i<cu.ConnectionRetryTimes; i++)
         {
-            cu.err("Connection Successful !", 0);
+            if(this.InitializeConnection() == true)
+            {
+                cu.err("Connection Successful !", 0);
+                break;
+            }
+            else
+            {
+                cu.err("Connection Failed !", 3);
+                cu.err("Tries : " + (i+1) + ", Retrying Connection...");
+                failed = true;
+            }
         }
-        else
+        
+        if(failed == true)
         {
-            cu.err("Connection Unsuccessful !", 4);
-            System.exit(1); //Force Quit -- perlu di perhatikan, bagusnya ada close dll
+            cu.err("Connection Failed After " + i + " Attempts", 4);
+            cu.err("Exiting Program...", 4);
+            System.exit(1);
         }
     }
     
@@ -42,15 +56,15 @@ public final class DBHandler
         catch (ClassNotFoundException | InstantiationException |
                 IllegalAccessException cnfe) {
             // handle any errors
-            cu.err("Exception: " + cnfe.getMessage());
+            cu.err("Exception: " + cnfe.getMessage(), 2);
             cu.err("Location: InitializeConnection()");
             return false;
         }
         catch (SQLException ex) {
             // handle any errors
-            cu.err("SQLException: " + ex.getMessage());
-            cu.err("SQLState: " + ex.getSQLState());
-            cu.err("VendorError: " + ex.getErrorCode());
+            cu.err("SQLException: " + ex.getMessage(), 2);
+            cu.err("SQLState: " + ex.getSQLState(), 2);
+            cu.err("VendorError: " + ex.getErrorCode(), 2);
             cu.err("Location: InitializeConnection()");
             return false;
         }
@@ -66,17 +80,17 @@ public final class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                cu.err("Data telah tersimpan!");
+                cu.err("Data telah tersimpan!", 0);
                 ps.close();
                 return true;
             } else {
                 //Gagal
-                cu.err("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.", 2);
                 cu.err("Location: addKontak()");
                 return false;
             }
         } catch (SQLException ex) {
-            cu.err("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage(), 2);
             cu.err("Location: addKontak()");
             return false;
         }
@@ -84,6 +98,7 @@ public final class DBHandler
     
     public boolean updateKontak(Kontak k) {
         try {
+            cu.err("Memperbarui Data...");
             PreparedStatement ps = conn.prepareStatement("UPDATE contact SET Nama=?, Kategori=? WHERE Hp=?");
             
             ps.setString(1, k.getNama());
@@ -92,24 +107,25 @@ public final class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                cu.err("Data telah tersimpan!");
+                cu.err("Data telah tersimpan!", 0);
                 ps.close();
                 return true;
             } else {
                 //Gagal
-                cu.err("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.", 2);
                 cu.err("Location: updateKontak()");
                 return false;
             }
         } catch (SQLException ex) {
-            cu.err("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage(), 2);
             cu.err("Location: updateKontak()");
             return false;
         }
     }
     
-    public void deleteKontak(String NoHP) {
+    public boolean deleteKontak(String NoHP) {
         try {
+            cu.err("Menghapus Data...");
             PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM contact WHERE Hp=?");
             
@@ -117,16 +133,19 @@ public final class DBHandler
             
             if(ps.executeUpdate() > 0) {
                 //Sukses
-                cu.err("Data telah tersimpan!");
+                cu.err("Data telah berhasil terhapus!", 0);
                 ps.close();
+                return true;
             } else {
                 //Gagal
-                cu.err("Terjadi kesalahan.");
+                cu.err("Terjadi kesalahan.", 2);
                 cu.err("Location: deleteKontak()");
+                return false;
             }
         } catch (SQLException ex) {
-            cu.err("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage(), 2);
             cu.err("Location: updateKontak()");
+            return false;
         }
     }
     
@@ -136,6 +155,7 @@ public final class DBHandler
         ResultSet rs;
         
         try{
+            cu.err("Meminta Data...");
             ps = conn.prepareStatement("SELECT * FROM contact");
             rs = ps.executeQuery();
             
@@ -150,8 +170,9 @@ public final class DBHandler
             
             rs.close();
             ps.close();
+            cu.err("Data Berhasil Didapatkan", 0);
         } catch (SQLException ex) {
-            cu.err("SQLException: " + ex.getMessage());
+            cu.err("SQLException: " + ex.getMessage(), 2);
             cu.err("Location: selectAllKontak()");
         }
         return lk;
