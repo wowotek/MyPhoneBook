@@ -49,8 +49,7 @@ public class ConsoleUtility
         {
             FileWriter fw = new FileWriter("out.txt", true); //true tells to append data.
             this.out = new BufferedWriter(fw);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             System.err.println("Error: " + e.getMessage());
         }
@@ -89,8 +88,7 @@ public class ConsoleUtility
             try
             {
                 this.out.write("\n" + fstring);
-            }
-            catch (IOException ex)
+            } catch (IOException ex)
             {
                 if (this.debug == true)
                 {
@@ -114,8 +112,7 @@ public class ConsoleUtility
             try
             {
                 this.out.write("\n" + fstring);
-            }
-            catch (IOException ex)
+            } catch (IOException ex)
             {
                 if (this.debug == true)
                 {
@@ -137,8 +134,7 @@ public class ConsoleUtility
             if (System.getProperty("os.name").contains("Windows"))
             {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
-            else //untuk linux, ga sempurna
+            } else //untuk linux, ga sempurna
             {
                 System.out.print("\033[2J\033[1;1H");
                 System.out.print('\u000C');
@@ -146,8 +142,7 @@ public class ConsoleUtility
                 Runtime.getRuntime().exec("clear");
                 System.out.println("\f");
             }
-        }
-        catch (IOException | InterruptedException ex)
+        } catch (IOException | InterruptedException ex)
         {
         }
 
@@ -164,8 +159,7 @@ public class ConsoleUtility
             if (Character.isSpaceChar(c))
             {
                 nextTitleCase = true;
-            }
-            else if (nextTitleCase)
+            } else if (nextTitleCase)
             {
                 c = Character.toTitleCase(c);
                 nextTitleCase = false;
@@ -205,8 +199,7 @@ public class ConsoleUtility
         try
         {
             TimeUnit.SECONDS.sleep(1);
-        }
-        catch (InterruptedException ex)
+        } catch (InterruptedException ex)
         {
         }
     }
@@ -216,8 +209,7 @@ public class ConsoleUtility
         try
         {
             TimeUnit.MILLISECONDS.sleep(Multiplier * 10);
-        }
-        catch (InterruptedException ex)
+        } catch (InterruptedException ex)
         {
         }
     }

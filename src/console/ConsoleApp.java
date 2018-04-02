@@ -61,14 +61,13 @@ public class ConsoleApp
             }
         }
     }
-
-    private boolean exitConfirmation()
+    
+        private boolean exitConfirmation()
     {
-        if(this.cadb.closeConnection() == true)
+        if (this.cadb.closeConnection() == true)
         {
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
