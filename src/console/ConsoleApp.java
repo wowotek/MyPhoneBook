@@ -7,11 +7,13 @@ public class ConsoleApp
 {
 
     private ConsoleUI cui;
-    private final ConsoleUtility cu = new ConsoleUtility(true, true);
+    private final ConsoleUtility cu = new ConsoleUtility(false, false);
+    private DBHandler cadb;
 
     public ConsoleApp(DBHandler db)
     {
         cui = new ConsoleUI(db);
+        cadb = db;
     }
 
     public void run()
@@ -60,13 +62,15 @@ public class ConsoleApp
         }
     }
 
-    private void ubahKontak()
-    {
-
-    }
-
     private boolean exitConfirmation()
     {
-        return true;
+        if(this.cadb.closeConnection() == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

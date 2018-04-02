@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
-    public String MyPhoneBookVersion = "0.1.18";
+    public String MyPhoneBookVersion = "0.1.20";
     public int ConnectionRetryTimes = 3;
 
     private boolean log;
@@ -27,9 +27,9 @@ public class ConsoleUtility
         String Dev2 = "Aurelia Gabriele";
         String Dev3 = "Erlangga Ibrahim";
 
-        String WD1 = "Console Dev, Documentation, Give Us lot of Coffee !";
-        String WD2 = "GUI Designer, Console Dev, Give Us lot of Food and Love :)";
-        String WD3 = "GUI Designer, Console Dev, SQL";
+        String WD1 = "GUI Design, Documentation, Give Us lot of Coffee !";
+        String WD2 = "Console Design & Dev, Give Us lot of Food and Love :)";
+        String WD3 = "GUI Design & Dev, Console Dev, SQL";
 
         String fin
                 = Dev1 + "\n  - " + WD1 + "\n"
@@ -243,7 +243,7 @@ public class ConsoleUtility
     {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("Tekan Apasaja Untuk Melanjukan");
+        System.out.println("Tekan Enter Untuk Melanjukan");
         s.nextLine();
     }
 }

@@ -20,6 +20,10 @@ public class Main
                 case "--console":
                     runConsole();
                     break;
+                case "-h":
+                case "--help":
+                    printHelp();
+                    break;
             }
         }
         catch (ArrayIndexOutOfBoundsException ex)
