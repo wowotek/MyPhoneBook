@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
-    public String MyPhoneBookVersion = "0.1.20";
+    public String MyPhoneBookVersion = "0.1.22";
+    public String ReleaseCondition = "Alpha";
     public int ConnectionRetryTimes = 3;
 
     private boolean log;
@@ -27,15 +28,29 @@ public class ConsoleUtility
         String Dev2 = "Aurelia Gabriele";
         String Dev3 = "Erlangga Ibrahim";
 
-        String WD1 = "GUI Design, Documentation, Give Us lot of Coffee !";
-        String WD2 = "Console Design & Dev, Give Us lot of Food and Love :)";
-        String WD3 = "GUI Design & Dev, Console Dev, SQL";
+        String WD1
+                = "-GUI Design, \n   "
+                + "-Give Us lot of Coffee !\n   "
+                + "(Developers Body is Basically 80% Coffee not Water).\n";
+
+        String WD2
+                = "-Console Design & Dev, \n   "
+                + "-UI Counselor,\n   "
+                + "-Documentation, \n   "
+                + "-Give Us lot of Food and Love :).\n";
+
+        String WD3
+                = "-Project Manager, "
+                + "\n   -GUI Design & Dev, "
+                + "\n   -Console Dev, "
+                + "\n   -SQL,"
+                + "\n   -Gives Us lot of headache.\n";
 
         String fin
-                = Dev1 + "\n  - " + WD1 + "\n"
-                + Dev2 + "\n  - " + WD2 + "\n"
-                + Dev3 + "\n  - " + WD3 + "\n\n"
-                + "GUI Version : " + this.MyPhoneBookVersion;
+                = Dev1 + "\n   " + WD1 + "\n"
+                + Dev2 + "\n   " + WD2 + "\n"
+                + Dev3 + "\n   " + WD3 + "\n"
+                + "GUI Version : " + this.MyPhoneBookVersion + " " + this.ReleaseCondition;
 
         return fin;
     }
@@ -49,7 +64,8 @@ public class ConsoleUtility
         {
             FileWriter fw = new FileWriter("out.txt", true); //true tells to append data.
             this.out = new BufferedWriter(fw);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             System.err.println("Error: " + e.getMessage());
         }
@@ -88,7 +104,8 @@ public class ConsoleUtility
             try
             {
                 this.out.write("\n" + fstring);
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 if (this.debug == true)
                 {
@@ -112,7 +129,8 @@ public class ConsoleUtility
             try
             {
                 this.out.write("\n" + fstring);
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 if (this.debug == true)
                 {
@@ -134,7 +152,8 @@ public class ConsoleUtility
             if (System.getProperty("os.name").contains("Windows"))
             {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else //untuk linux, ga sempurna
+            }
+            else //untuk linux, ga sempurna
             {
                 System.out.print("\033[2J\033[1;1H");
                 System.out.print('\u000C');
@@ -142,7 +161,8 @@ public class ConsoleUtility
                 Runtime.getRuntime().exec("clear");
                 System.out.println("\f");
             }
-        } catch (IOException | InterruptedException ex)
+        }
+        catch (IOException | InterruptedException ex)
         {
         }
 
@@ -159,7 +179,8 @@ public class ConsoleUtility
             if (Character.isSpaceChar(c))
             {
                 nextTitleCase = true;
-            } else if (nextTitleCase)
+            }
+            else if (nextTitleCase)
             {
                 c = Character.toTitleCase(c);
                 nextTitleCase = false;
@@ -199,7 +220,8 @@ public class ConsoleUtility
         try
         {
             TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException ex)
+        }
+        catch (InterruptedException ex)
         {
         }
     }
@@ -209,7 +231,8 @@ public class ConsoleUtility
         try
         {
             TimeUnit.MILLISECONDS.sleep(Multiplier * 10);
-        } catch (InterruptedException ex)
+        }
+        catch (InterruptedException ex)
         {
         }
     }

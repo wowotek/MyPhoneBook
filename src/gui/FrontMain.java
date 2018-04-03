@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
@@ -36,6 +37,7 @@ public class FrontMain extends javax.swing.JFrame
         initComponents();
         updateTree();
         setVersion();
+        this.setResizable(false);
     }
 
     private void setVersion()
@@ -81,6 +83,7 @@ public class FrontMain extends javax.swing.JFrame
         RK_FieldKategori = new javax.swing.JTextField();
         RK_ButtonBatal = new javax.swing.JButton();
         RK_UbahButton = new javax.swing.JButton();
+        RK_NOHPINVIS = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -101,6 +104,12 @@ public class FrontMain extends javax.swing.JFrame
         EditButton = new javax.swing.JButton();
         VersionLabel = new javax.swing.JLabel();
 
+        TambahKontakDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        TambahKontakDialog.setTitle("Tambah Kontak");
+        TambahKontakDialog.setAlwaysOnTop(true);
+        TambahKontakDialog.setMaximumSize(new java.awt.Dimension(560, 305));
+        TambahKontakDialog.setMinimumSize(new java.awt.Dimension(560, 305));
+
         jPanel3.setBackground(new java.awt.Color(253, 193, 137));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/img/AddContact.png"))); // NOI18N
@@ -111,8 +120,22 @@ public class FrontMain extends javax.swing.JFrame
         PanelInfo.setBorder(javax.swing.BorderFactory.createTitledBorder("Informasi Kontak"));
 
         TK_ButtonBatal.setText("Batal");
+        TK_ButtonBatal.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                TK_ButtonBatalActionPerformed(evt);
+            }
+        });
 
         TK_ButtonTambah.setText("Tambahkan");
+        TK_ButtonTambah.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                TK_ButtonTambahActionPerformed(evt);
+            }
+        });
 
         LabelNama.setText("Nama");
 
@@ -120,12 +143,20 @@ public class FrontMain extends javax.swing.JFrame
 
         jLabel13.setText("Kategori");
 
+        TK_FieldNama.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                TK_FieldNamaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelInfoLayout = new javax.swing.GroupLayout(PanelInfo);
         PanelInfo.setLayout(PanelInfoLayout);
         PanelInfoLayout.setHorizontalGroup(
             PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInfoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelInfoLayout.createSequentialGroup()
                         .addComponent(TK_ButtonTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -141,8 +172,8 @@ public class FrontMain extends javax.swing.JFrame
                             .addComponent(TK_FieldNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TK_FieldKategori, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TK_FieldHP, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 5, Short.MAX_VALUE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         PanelInfoLayout.setVerticalGroup(
             PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,6 +233,8 @@ public class FrontMain extends javax.swing.JFrame
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        EditKontakDialog.setTitle("Rubah Kontak");
+
         jPanel6.setBackground(new java.awt.Color(253, 193, 137));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/img/EditContact.png"))); // NOI18N
@@ -218,6 +251,13 @@ public class FrontMain extends javax.swing.JFrame
         jLabel14.setText("Kategori");
 
         RK_ButtonBatal.setText("Batal");
+        RK_ButtonBatal.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                RK_ButtonBatalActionPerformed(evt);
+            }
+        });
 
         RK_UbahButton.setText("Ubah");
         RK_UbahButton.addActionListener(new java.awt.event.ActionListener()
@@ -273,6 +313,9 @@ public class FrontMain extends javax.swing.JFrame
                 .addContainerGap())
         );
 
+        RK_NOHPINVIS.setForeground(new java.awt.Color(253, 193, 137));
+        RK_NOHPINVIS.setText("jLabel15");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -280,9 +323,15 @@ public class FrontMain extends javax.swing.JFrame
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(RK_NOHPINVIS)
+                        .addGap(78, 78, 78))))
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
@@ -290,11 +339,13 @@ public class FrontMain extends javax.swing.JFrame
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jLabel9)))
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(RK_NOHPINVIS)
+                            .addComponent(jLabel7))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -349,6 +400,10 @@ public class FrontMain extends javax.swing.JFrame
             public void mouseClicked(java.awt.event.MouseEvent evt)
             {
                 jTree1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt)
+            {
+                jTree1MouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(jTree1);
@@ -573,8 +628,9 @@ public class FrontMain extends javax.swing.JFrame
 
     private void TambahButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TambahButtonActionPerformed
     {//GEN-HEADEREND:event_TambahButtonActionPerformed
-        TambahKontak tk = new TambahKontak(this.db);
-        tk.setVisible(true);
+//        TambahKontak tk = new TambahKontak(this.db);
+//        tk.setVisible(true);
+        showDialogTambah();
     }//GEN-LAST:event_TambahButtonActionPerformed
 
     private void HapusButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_HapusButtonActionPerformed
@@ -652,8 +708,7 @@ public class FrontMain extends javax.swing.JFrame
                     HPTextField.setText(hp);
                     KategoriTextField.setText(kategori);
 
-                    EditKontak ek = new EditKontak(kontak.get(i), this.db);
-                    ek.setVisible(true);
+                    showDialogEdit(kontak.get(i));
 
                     break;
                 }
@@ -675,13 +730,286 @@ public class FrontMain extends javax.swing.JFrame
     private void VersionLabelMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_VersionLabelMouseClicked
     {//GEN-HEADEREND:event_VersionLabelMouseClicked
         JOptionPane.showMessageDialog(this,
-                                    this.cu.getDevInfo());
+                this.cu.getDevInfo());
     }//GEN-LAST:event_VersionLabelMouseClicked
 
     private void RK_UbahButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RK_UbahButtonActionPerformed
     {//GEN-HEADEREND:event_RK_UbahButtonActionPerformed
-        
+        String nama = this.cu.titleCase(this.RK_FieldNama.getText());
+        String hp = this.RK_NOHPINVIS.getText();
+        String kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
+
+        if (nama.length() > 45)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Nama Tidak Bisa Lebih dari 45 Karakter!",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldNama.setBackground(Color.red);
+        }
+        else if (nama.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Nama Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldNama.setBackground(Color.red);
+        }
+        else if (hp.length() > 12)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "No Handphone Tidak Bisa Lebih Dari 12 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldHP.setBackground(Color.red);
+        }
+        else if (hp.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "No Handphone Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldHP.setBackground(Color.red);
+        }
+        else if (kategori.length() > 25)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Kategori Tidak Bisa Lebih Dari 25 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldKategori.setBackground(Color.red);
+        }
+        else if (kategori.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Kategori Tidak Bisa Kosong",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldKategori.setBackground(Color.red);
+        }
+        else
+        {
+            nama = this.cu.titleCase(this.RK_FieldNama.getText());
+            hp = this.RK_NOHPINVIS.getText();
+            kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
+
+            Object[] options =
+            {
+                "Ya",
+                "Tidak"
+            };
+
+            int n = JOptionPane.showOptionDialog(this.EditKontakDialog,
+                    ("Apakah Anda Yakin Mengubah Data ?"),
+                    "Konfirmasi Perbaharuan Data",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (n == 0)
+            {
+                Kontak nk = new Kontak(nama, hp, kategori);
+                if (this.db.updateKontak(nk) == true)
+                {
+                    JOptionPane.showMessageDialog(this.EditKontakDialog,
+                            "Data Berhasil Diperbarui");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this.EditKontakDialog,
+                            "Data " + this.RK_NOHPINVIS.getText() + " Gagal diperbaharui !",
+                            "Gagal Memperbarui Data",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            this.EditKontakDialog.dispose();
+        }
     }//GEN-LAST:event_RK_UbahButtonActionPerformed
+
+    private void TK_ButtonTambahActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TK_ButtonTambahActionPerformed
+    {//GEN-HEADEREND:event_TK_ButtonTambahActionPerformed
+        String nama = this.cu.titleCase(TK_FieldNama.getText());
+        String hp = this.cu.titleCase(TK_FieldHP.getText());
+        String kategori = this.cu.titleCase(TK_FieldKategori.getText());
+
+        if (nama.length() > 45)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Nama Tidak Bisa Lebih dari 45 Karakter!",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldNama.setBackground(Color.red);
+        }
+        else if (nama.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Nama Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldNama.setBackground(Color.red);
+        }
+        else if (hp.length() > 12)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "No Handphone Tidak Bisa Lebih Dari 12 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldHP.setBackground(Color.red);
+        }
+        else if (hp.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "No Handphone Tidak Bisa Kosong !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldHP.setBackground(Color.red);
+        }
+        else if (kategori.length() > 25)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Kategori Tidak Bisa Lebih Dari 25 Karakter !",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldKategori.setBackground(Color.red);
+        }
+        else if (kategori.equals(""))
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Kategori Tidak Bisa Kosong",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldKategori.setBackground(Color.red);
+        }
+        else
+        {
+            TK_FieldNama.setBackground(Color.white);
+            TK_FieldHP.setBackground(Color.white);
+            TK_FieldKategori.setBackground(Color.white);
+
+            TK_FieldNama.setText(nama);
+            TK_FieldHP.setText(hp);
+            TK_FieldKategori.setText(kategori);
+
+            if (this.db.addKontak(new Kontak(nama, hp, kategori)) == true)
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Data Berhasil Ditambahkan");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Data tidak bisa ditambahkan !",
+                        "Database Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            TK_FieldNama.setText("");
+            TK_FieldHP.setText("");
+            TK_FieldKategori.setText("");
+
+            TK_FieldNama.setBackground(Color.white);
+            TK_FieldHP.setBackground(Color.white);
+            TK_FieldKategori.setBackground(Color.white);
+
+            this.TambahKontakDialog.dispose();
+            updateTree();
+        }
+    }//GEN-LAST:event_TK_ButtonTambahActionPerformed
+
+    private void TK_ButtonBatalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TK_ButtonBatalActionPerformed
+    {//GEN-HEADEREND:event_TK_ButtonBatalActionPerformed
+        TK_FieldNama.setText("");
+        TK_FieldHP.setText("");
+        TK_FieldKategori.setText("");
+
+        TK_FieldNama.setBackground(Color.white);
+        TK_FieldHP.setBackground(Color.white);
+        TK_FieldKategori.setBackground(Color.white);
+
+        this.TambahKontakDialog.dispose();
+        updateTree();
+    }//GEN-LAST:event_TK_ButtonBatalActionPerformed
+
+    private void RK_ButtonBatalActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RK_ButtonBatalActionPerformed
+    {//GEN-HEADEREND:event_RK_ButtonBatalActionPerformed
+        RK_FieldNama.setText("");
+        RK_FieldHP.setText("");
+        RK_FieldKategori.setText("");
+
+        RK_FieldNama.setBackground(Color.white);
+        RK_FieldHP.setBackground(Color.white);
+        RK_FieldKategori.setBackground(Color.white);
+
+        this.EditKontakDialog.dispose();
+        updateTree();
+    }//GEN-LAST:event_RK_ButtonBatalActionPerformed
+
+    private void TK_FieldNamaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TK_FieldNamaActionPerformed
+    {//GEN-HEADEREND:event_TK_FieldNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TK_FieldNamaActionPerformed
+
+    private void jTree1MouseEntered(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTree1MouseEntered
+    {//GEN-HEADEREND:event_jTree1MouseEntered
+
+    }//GEN-LAST:event_jTree1MouseEntered
+
+    private void showDialogTambah()
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                showTKDialog();
+            }
+        });
+    }
+
+    private void showDialogEdit(Kontak k)
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                showEKDialog(k);
+            }
+        });
+    }
+
+    private void showTKDialog()
+    {
+        cu.err("Opening Tambah Kontak Dialog");
+        this.TambahKontakDialog.setModal(true);
+        this.TambahKontakDialog.setResizable(false);
+        this.TambahKontakDialog.setBounds(15, 15, 560, 305);
+        this.TambahKontakDialog.setVisible(true);
+    }
+
+    private void showEKDialog(Kontak k)
+    {
+        cu.err("Opening Edit Kontak Dialog");
+
+        this.RK_FieldNama.setBackground(Color.white);
+        this.RK_FieldNama.setText(k.getNama());
+
+        this.RK_FieldHP.setDisabledTextColor(Color.black);
+        this.RK_FieldHP.setText(k.getNoHP(true));
+        this.RK_FieldHP.setEditable(false);
+        this.RK_FieldHP.setEnabled(false);
+
+        this.RK_NOHPINVIS.setText(k.getNoHP());
+        this.RK_NOHPINVIS.setVisible(false);
+
+        this.RK_FieldKategori.setBackground(Color.white);
+        this.RK_FieldKategori.setText(k.getKategori());
+
+        this.EditKontakDialog.setModal(true);
+        this.EditKontakDialog.setResizable(false);
+        this.EditKontakDialog.setBounds(15, 15, 560, 305);
+        this.EditKontakDialog.setVisible(true);
+    }
 
     private void updateTree()
     {
@@ -791,6 +1119,7 @@ public class FrontMain extends javax.swing.JFrame
     private javax.swing.JTextField RK_FieldHP;
     private javax.swing.JTextField RK_FieldKategori;
     private javax.swing.JTextField RK_FieldNama;
+    private javax.swing.JLabel RK_NOHPINVIS;
     private javax.swing.JButton RK_UbahButton;
     private javax.swing.JButton RefreshButton;
     private javax.swing.JButton TK_ButtonBatal;
