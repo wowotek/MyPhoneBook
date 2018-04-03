@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
-    public String MyPhoneBookVersion = "0.1.22";
+    public String MyPhoneBookVersion = "0.2.06";
     public String ReleaseCondition = "Alpha";
     public int ConnectionRetryTimes = 3;
 
