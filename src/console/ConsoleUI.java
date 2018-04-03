@@ -3,8 +3,6 @@ package console;
 import db.DBHandler;
 import db.Kontak;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
 
 import java.util.Scanner;
 
@@ -127,20 +125,23 @@ public class ConsoleUI
 
     public void lihatKontakUI()
     {
-        String ik = this.inputKategori();
-        if (ik.equals("Semua"))
+        while (true)
         {
-            this.printKontak();
-        }
-        else if (ik.equals("b"))
-        {
-            System.out.println("");
-            System.out.flush();
-            return;
-        }
-        else
-        {
-            this.printKontak(ik);
+            String ik = this.inputKategori();
+            if (ik.equals("Semua"))
+            {
+                this.printKontak();
+            }
+            else if (ik.equals("b"))
+            {
+                System.out.println("");
+                System.out.flush();
+                return;
+            }
+            else
+            {
+                this.printKontak(ik);
+            }
         }
     }
     //--------------------------- Selesai --------------------------------------

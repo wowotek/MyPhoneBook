@@ -209,4 +209,29 @@ public final class DBHandler
         }
         return lk;
     }
+    
+    public boolean closeConnection()
+    {
+        String e = "";
+        for (int i = 0; i < cu.ConnectionRetryTimes; i++)
+        {
+            try
+            {
+                cu.err("Closing Connection...");
+                cu.delay(50);
+                conn.close();
+                cu.err("Connection Succesfuly Closed!", 5);
+                return true;
+            }
+            catch(SQLException ex)
+            {
+                cu.err("Failed to close Connection !", 2);
+                cu.err("Retrying to close...");
+                e = ex.getMessage();
+            }
+        }
+        cu.err("Connection Cannot be Closed ! please handle your data Carefully !", 4);
+        cu.err(e);
+        return false;
+    }
 }

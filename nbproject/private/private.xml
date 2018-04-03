@@ -5,7 +5,7 @@
             <url>src/console/ConsoleUI.java</url>
             <bookmark id="1">
                 <name/>
-                <line>169</line>
+                <line>156</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,8 +14,7 @@
         <group>
             <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/db/DBHandler.java</file>
             <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/db/Kontak.java</file>
-            <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/console/ConsoleApp.java</file>
-            <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/console/ConsoleUtility.java</file>
+            <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/gui/FrontMain.java</file>
             <file>file:/home/wowotek/Documents/Programming/Git/UKSW/MyPhoneBook/src/db/Main.java</file>
         </group>
     </open-files>

@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 public class ConsoleUtility
 {
 
-    public String MyPhoneBookVersion = "0.1.18";
+    public String MyPhoneBookVersion = "0.1.22";
+    public String ReleaseCondition = "Alpha";
     public int ConnectionRetryTimes = 3;
 
     private boolean log;
@@ -27,15 +28,29 @@ public class ConsoleUtility
         String Dev2 = "Aurelia Gabriele";
         String Dev3 = "Erlangga Ibrahim";
 
-        String WD1 = "Console Dev, Documentation, Give Us lot of Coffee !";
-        String WD2 = "GUI Designer, Console Dev, Give Us lot of Food and Love :)";
-        String WD3 = "GUI Designer, Console Dev, SQL";
+        String WD1
+                = "-GUI Design, \n   "
+                + "-Give Us lot of Coffee !\n   "
+                + "(Developers Body is Basically 80% Coffee not Water).\n";
+
+        String WD2
+                = "-Console Design & Dev, \n   "
+                + "-UI Counselor,\n   "
+                + "-Documentation, \n   "
+                + "-Give Us lot of Food and Love :).\n";
+
+        String WD3
+                = "-Project Manager, "
+                + "\n   -GUI Design & Dev, "
+                + "\n   -Console Dev, "
+                + "\n   -SQL,"
+                + "\n   -Gives Us lot of headache.\n";
 
         String fin
-                = Dev1 + "\n  - " + WD1 + "\n"
-                + Dev2 + "\n  - " + WD2 + "\n"
-                + Dev3 + "\n  - " + WD3 + "\n\n"
-                + "GUI Version : " + this.MyPhoneBookVersion;
+                = Dev1 + "\n   " + WD1 + "\n"
+                + Dev2 + "\n   " + WD2 + "\n"
+                + Dev3 + "\n   " + WD3 + "\n"
+                + "GUI Version : " + this.MyPhoneBookVersion + " " + this.ReleaseCondition;
 
         return fin;
     }
@@ -243,7 +258,7 @@ public class ConsoleUtility
     {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("Tekan Apasaja Untuk Melanjukan");
+        System.out.println("Tekan Enter Untuk Melanjukan");
         s.nextLine();
     }
 }
