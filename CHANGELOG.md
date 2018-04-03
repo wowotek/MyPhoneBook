@@ -17,11 +17,13 @@
 ---
 #### `Alpha Release` - `0.1.22`
 - Fixed Bugs
-    - Menu Tambah
-    - Typo in Menu Hapus and Menu Edit
-    - GUI Crashes on Edit Frame
+    - Tambah Kontak Frame would not update it's state before User Interaction
+    - No Input Checking Mechanism for Edit Kontak
+    - Closing both Tambah and Edit Kontak Dialog will Close Main Frame
 - Added Features
-    + Added Delete Kontak on Console
+    + Reworked on GUI, using JDialog called from Main Frame Instead of separate JFrame
+    + Window Size is Fixed, cannot be resize able both main Frame and Dialog Frame.
+    + Added More Checking Mechanism for Edit Kontak
 ---
 #### `Update` - `0.1.18`
 - Fixed Bugs
