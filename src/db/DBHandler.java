@@ -13,7 +13,7 @@ import console.ConsoleUtility;
 public final class DBHandler
 {
 
-    private ConsoleUtility cu = new ConsoleUtility(true, true);
+    private ConsoleUtility cu;
     private Connection conn;
 
     public Connection getConnection()
@@ -21,8 +21,9 @@ public final class DBHandler
         return this.conn;
     }
 
-    public DBHandler()
+    public DBHandler(boolean log, boolean debug)
     {
+        cu = new ConsoleUtility(log, debug);
         cu.err("Connection Initialization...", 5);
         boolean failed = false;
         int i;
@@ -45,7 +46,7 @@ public final class DBHandler
         {
             cu.err("Connection Failed After " + i + " Attempts", 4);
             cu.err("Exiting Program...", 4);
-            System.exit(1);
+            System.exit(1); //needs to be reworked
         }
     }
 

@@ -7,12 +7,13 @@ public class ConsoleApp
 {
 
     private ConsoleUI cui;
-    private final ConsoleUtility cu = new ConsoleUtility(false, false);
+    private ConsoleUtility cu;
     private DBHandler cadb;
 
-    public ConsoleApp(DBHandler db)
+    public ConsoleApp(DBHandler db, boolean log, boolean debug)
     {
         cui = new ConsoleUI(db);
+        cu = new ConsoleUtility(log, debug);
         cadb = db;
     }
 

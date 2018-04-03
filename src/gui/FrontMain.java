@@ -1,8 +1,5 @@
 package gui;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -10,11 +7,10 @@ import db.DBHandler;
 import db.Kontak;
 import console.ConsoleUtility;
 import java.awt.Color;
-import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.tree.TreeSelectionModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -24,16 +20,17 @@ public class FrontMain extends javax.swing.JFrame
 {
 
     private DBHandler db;
-    private final ConsoleUtility cu = new ConsoleUtility(true, true);
+    private ConsoleUtility cu;
 
     /**
      * Creates new form FrontMain
      *
      * @param x
      */
-    public FrontMain(DBHandler x)
+    public FrontMain(DBHandler x, boolean log, boolean debug)
     {
         this.db = x;
+        this.cu = new ConsoleUtility(log, debug);
         initComponents();
         updateTree();
         setVersion();
@@ -617,7 +614,6 @@ public class FrontMain extends javax.swing.JFrame
         }
         catch (NullPointerException ex)
         {
-            this.cu.err("Non 'Kontak' Node Selected", 2);
         }
     }//GEN-LAST:event_jTree1MouseClicked
 
@@ -628,8 +624,6 @@ public class FrontMain extends javax.swing.JFrame
 
     private void TambahButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TambahButtonActionPerformed
     {//GEN-HEADEREND:event_TambahButtonActionPerformed
-//        TambahKontak tk = new TambahKontak(this.db);
-//        tk.setVisible(true);
         showDialogTambah();
     }//GEN-LAST:event_TambahButtonActionPerformed
 
@@ -684,7 +678,11 @@ public class FrontMain extends javax.swing.JFrame
         }
         catch (NullPointerException ex)
         {
-            this.cu.err("Non 'Kontak' Node Selected", 2);
+            JOptionPane.showMessageDialog(this,
+                    "Silahkan Pilih Data Untuk Dihapus !",
+                    "Tidak Ada Data Yang Di Pilih !",
+                    JOptionPane.ERROR_MESSAGE);
+            this.cu.err("Non 'Kontak' Node Selected, Location HapusButton", 2);
         }
     }//GEN-LAST:event_HapusButtonActionPerformed
 
@@ -718,7 +716,11 @@ public class FrontMain extends javax.swing.JFrame
         }
         catch (NullPointerException ex)
         {
-            this.cu.err("Non 'Kontak' Node Selected", 2);
+            JOptionPane.showMessageDialog(this,
+                    "Silahkan Pilih Data Untuk DiUbah !",
+                    "Tidak Ada Data Yang Di Pilih !",
+                    JOptionPane.ERROR_MESSAGE);
+            this.cu.err("Non 'Kontak' Node Selected, Location EditButton", 2);
         }
     }//GEN-LAST:event_EditButtonActionPerformed
 
@@ -735,11 +737,61 @@ public class FrontMain extends javax.swing.JFrame
 
     private void RK_UbahButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RK_UbahButtonActionPerformed
     {//GEN-HEADEREND:event_RK_UbahButtonActionPerformed
-        String nama = this.cu.titleCase(this.RK_FieldNama.getText());
-        String hp = this.RK_NOHPINVIS.getText();
-        String kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
+        String _nama = this.cu.titleCase(this.RK_FieldNama.getText());
+        String _hp = this.RK_NOHPINVIS.getText();
+        String _kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
 
-        if (nama.length() > 45)
+        char[] _cnama = _nama.toCharArray();
+        boolean _namaPass = true;
+        char[] _chp = _hp.toCharArray();
+        boolean _hpPass = true;
+        char[] _ckategori = _kategori.toCharArray();
+        boolean _kategoriPass = true;
+
+        for (char c : _cnama)
+        {
+            if (Character.isWhitespace(c))
+            {
+                
+            }
+            else if (Character.isLetter(c) == false)
+            {
+                _namaPass = false;
+                break;
+            }
+        }
+
+        for (char c : _chp)
+        {
+            if (Character.isDigit(c) == false)
+            {
+                _hpPass = false;
+                break;
+            }
+        }
+
+        for (char c : _ckategori)
+        {
+            if (Character.isWhitespace(c))
+            {
+                
+            }
+            else if (Character.isLetter(c) == false)
+            {
+                _kategoriPass = false;
+                break;
+            }
+        }
+
+        if (_namaPass == false)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Nama Tidak Dapat Diinput Angka",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldNama.setBackground(Color.red);
+        }
+        else if (_nama.length() > 45)
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "Nama Tidak Bisa Lebih dari 45 Karakter!",
@@ -747,7 +799,7 @@ public class FrontMain extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             RK_FieldNama.setBackground(Color.red);
         }
-        else if (nama.equals(""))
+        else if (_nama.equals(""))
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "Nama Tidak Bisa Kosong !",
@@ -755,23 +807,39 @@ public class FrontMain extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             RK_FieldNama.setBackground(Color.red);
         }
-        else if (hp.length() > 12)
+        else if (_hpPass == false)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "No Handphone Tidak Dapat Diinput Huruf/Tanda Baca/Simbol",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            //RK_FieldHP.setBackground(Color.red);
+        }
+        else if (_hp.length() > 12)
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "No Handphone Tidak Bisa Lebih Dari 12 Karakter !",
                     "Field Error",
                     JOptionPane.ERROR_MESSAGE);
-            RK_FieldHP.setBackground(Color.red);
+            //RK_FieldHP.setBackground(Color.red);
         }
-        else if (hp.equals(""))
+        else if (_hp.equals(""))
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "No Handphone Tidak Bisa Kosong !",
                     "Field Error",
                     JOptionPane.ERROR_MESSAGE);
-            RK_FieldHP.setBackground(Color.red);
+            //RK_FieldHP.setBackground(Color.red);
         }
-        else if (kategori.length() > 25)
+        else if (_kategoriPass == false)
+        {
+            JOptionPane.showMessageDialog(this.EditKontakDialog,
+                    "Kategori Tidak Dapat Diinput Selain Huruf",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            RK_FieldKategori.setBackground(Color.red);
+        }
+        else if (_kategori.length() > 25)
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "Kategori Tidak Bisa Lebih Dari 25 Karakter !",
@@ -779,7 +847,7 @@ public class FrontMain extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE);
             RK_FieldKategori.setBackground(Color.red);
         }
-        else if (kategori.equals(""))
+        else if (_kategori.equals(""))
         {
             JOptionPane.showMessageDialog(this.EditKontakDialog,
                     "Kategori Tidak Bisa Kosong",
@@ -789,9 +857,9 @@ public class FrontMain extends javax.swing.JFrame
         }
         else
         {
-            nama = this.cu.titleCase(this.RK_FieldNama.getText());
-            hp = this.RK_NOHPINVIS.getText();
-            kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
+            _nama = this.cu.titleCase(this.RK_FieldNama.getText());
+            _hp = this.RK_NOHPINVIS.getText();
+            _kategori = this.cu.titleCase(this.RK_FieldKategori.getText());
 
             Object[] options =
             {
@@ -810,7 +878,7 @@ public class FrontMain extends javax.swing.JFrame
 
             if (n == 0)
             {
-                Kontak nk = new Kontak(nama, hp, kategori);
+                Kontak nk = new Kontak(_nama, _hp, _kategori);
                 if (this.db.updateKontak(nk) == true)
                 {
                     JOptionPane.showMessageDialog(this.EditKontakDialog,
@@ -823,8 +891,8 @@ public class FrontMain extends javax.swing.JFrame
                             "Gagal Memperbarui Data",
                             JOptionPane.ERROR_MESSAGE);
                 }
+                this.EditKontakDialog.dispose();
             }
-            this.EditKontakDialog.dispose();
         }
     }//GEN-LAST:event_RK_UbahButtonActionPerformed
 
@@ -834,7 +902,57 @@ public class FrontMain extends javax.swing.JFrame
         String hp = this.cu.titleCase(TK_FieldHP.getText());
         String kategori = this.cu.titleCase(TK_FieldKategori.getText());
 
-        if (nama.length() > 45)
+        char[] cnama = nama.toCharArray();
+        boolean namaPass = true;
+        char[] chp = hp.toCharArray();
+        boolean hpPass = true;
+        char[] ckategori = kategori.toCharArray();
+        boolean kategoriPass = true;
+
+        for (char c : cnama)
+        {
+            if (Character.isWhitespace(c))
+            {
+                
+            }
+            else if (Character.isLetter(c) == false)
+            {
+                namaPass = false;
+                break;
+            }
+        }
+
+        for (char c : chp)
+        {
+            if (Character.isDigit(c) == false)
+            {
+                hpPass = false;
+                break;
+            }
+        }
+
+        for (char c : ckategori)
+        {
+            if (Character.isWhitespace(c))
+            {
+                
+            }
+            else if (Character.isLetter(c) == false)
+            {
+                kategoriPass = false;
+                break;
+            }
+        }
+
+        if (namaPass == false)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Nama Tidak Dapat Diinput Angka",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldNama.setBackground(Color.red);
+        }
+        else if (nama.length() > 45)
         {
             JOptionPane.showMessageDialog(this.TambahKontakDialog,
                     "Nama Tidak Bisa Lebih dari 45 Karakter!",
@@ -849,6 +967,14 @@ public class FrontMain extends javax.swing.JFrame
                     "Field Error",
                     JOptionPane.ERROR_MESSAGE);
             TK_FieldNama.setBackground(Color.red);
+        }
+        else if (hpPass == false)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "No Handphone Tidak Dapat Diinput Huruf/Tanda Baca/Simbol",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldHP.setBackground(Color.red);
         }
         else if (hp.length() > 12)
         {
@@ -865,6 +991,14 @@ public class FrontMain extends javax.swing.JFrame
                     "Field Error",
                     JOptionPane.ERROR_MESSAGE);
             TK_FieldHP.setBackground(Color.red);
+        }
+        else if (kategoriPass == false)
+        {
+            JOptionPane.showMessageDialog(this.TambahKontakDialog,
+                    "Kategori Tidak Dapat Diinput Selain Huruf",
+                    "Field Error",
+                    JOptionPane.ERROR_MESSAGE);
+            TK_FieldKategori.setBackground(Color.red);
         }
         else if (kategori.length() > 25)
         {
@@ -894,12 +1028,12 @@ public class FrontMain extends javax.swing.JFrame
 
             if (this.db.addKontak(new Kontak(nama, hp, kategori)) == true)
             {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(this.TambahKontakDialog,
                         "Data Berhasil Ditambahkan");
             }
             else
             {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(this.TambahKontakDialog,
                         "Data tidak bisa ditambahkan !",
                         "Database Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -939,7 +1073,7 @@ public class FrontMain extends javax.swing.JFrame
         RK_FieldKategori.setText("");
 
         RK_FieldNama.setBackground(Color.white);
-        RK_FieldHP.setBackground(Color.white);
+        //RK_FieldHP.setBackground(Color.white);
         RK_FieldKategori.setBackground(Color.white);
 
         this.EditKontakDialog.dispose();
@@ -997,7 +1131,6 @@ public class FrontMain extends javax.swing.JFrame
         this.RK_FieldHP.setDisabledTextColor(Color.black);
         this.RK_FieldHP.setText(k.getNoHP(true));
         this.RK_FieldHP.setEditable(false);
-        this.RK_FieldHP.setEnabled(false);
 
         this.RK_NOHPINVIS.setText(k.getNoHP());
         this.RK_NOHPINVIS.setVisible(false);
@@ -1014,6 +1147,8 @@ public class FrontMain extends javax.swing.JFrame
     private void updateTree()
     {
         this.cu.err("Updating List");
+        TreePath p = jTree1.getSelectionPath();
+        int[] s = jTree1.getSelectionRows();
         jTree1.clearSelection();
 
         int tinggi = jTree1.getHeight();
@@ -1055,6 +1190,9 @@ public class FrontMain extends javax.swing.JFrame
             kategori.add(kat);
         }
 
+        dm.reload();
+        jTree1.setSelectionPath(p);
+        jTree1.setSelectionRows(s);
         dm.reload();
         for (int i = 0; i < expandedRow.size(); i++)
         {

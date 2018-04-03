@@ -25,4 +25,5 @@ Sekarang Aplikasi ini adalah OpenSource
         $ unzip <file_download_aplikasi>.zip -d .
 
    jalankan dengan `--gui` or `-g` untuk menggunakan GUI
-   jalankan dengan `--console` or `-c` untu menggunakan Console
+   jalankan dengan `--console` or `-c` untuk menggunakan Console
+   jalankan dengan `--help` or `-h` untuk melihat bantuan

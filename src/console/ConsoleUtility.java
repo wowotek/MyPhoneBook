@@ -214,7 +214,7 @@ public class ConsoleUtility
         }
         return result;
     }
-
+    
     public void delay()
     {
         try

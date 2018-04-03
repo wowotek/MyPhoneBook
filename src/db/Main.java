@@ -3,25 +3,93 @@ package db;
 public class Main
 {
 
-    private static DBHandler db = new DBHandler();
-    private static console.ConsoleUtility cu = new console.ConsoleUtility(false, false);
+    private static DBHandler db;
+    private static console.ConsoleUtility cu = new console.ConsoleUtility(true, true);
 
     public static void main(String[] args)
     {
+        boolean log = false;
+        boolean debug = false;
+        
+        if(args.length < 2)
+        {
+            log = false;
+            debug = false;
+        }
+
         try
         {
+            switch (args[2])
+            {
+                case "-d":
+                case "--debug":
+                    debug = true;
+                    break;
+                case "-l":
+                case "--log":
+                    log = true;
+                    break;
+                default:
+                    log = false;
+                    debug = false;
+                    break;
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            log = false;
+            debug = false;
+        }
+
+        try
+        {
+
+            switch (args[1])
+            {
+                case "-d":
+                case "--debug":
+                    debug = true;
+                    break;
+                case "-l":
+                case "--log":
+                    log = true;
+                    break;
+                default:
+                    log = false;
+                    debug = false;
+                    break;
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            log = false;
+            debug = false;
+        }
+
+        db = new DBHandler(log, debug);
+        
+        try
+        {
+
             switch (args[0])
             {
                 case "-g":
                 case "--gui":
-                    runGui();
+                    cu.err("Running GUI with :\n"
+                            + "    -log   = " + log + "\n"
+                            + "    -debug = " + debug, 2);
+                    runGui(log, debug);
                     break;
                 case "-c":
                 case "--console":
-                    runConsole();
+                    cu.err("Running Console with :\n"
+                            + "    -log   = " + log + "\n"
+                            + "    -debug = " + debug, 2);
+                    runConsole(log, debug);
                     break;
                 case "-h":
                 case "--help":
+                default:
                     printHelp();
                     break;
             }
@@ -49,9 +117,10 @@ public class Main
         System.out.println("   - Print This Information\n");
     }
 
-    private static void runGui()
+    private static void runGui(boolean l, boolean d)
     {
-        final gui.FrontMain fm = new gui.FrontMain(db);
+        
+        final gui.FrontMain fm = new gui.FrontMain(db, l, d);
         fm.setVisible(true);
 //        
 //        SwingUtilities.invokeLater(new Thread (){
@@ -61,9 +130,9 @@ public class Main
 //        });
     }
 
-    private static void runConsole()
+    private static void runConsole(boolean l, boolean d)
     {
-        final console.ConsoleApp ca = new console.ConsoleApp(db);
+        final console.ConsoleApp ca = new console.ConsoleApp(db, l, d);
         ca.run();
     }
 }
