@@ -47,5 +47,6 @@ Sekarang Aplikasi ini adalah Open Source!
     - Buka Netbeans
     - File > Open Project
     - Arahkan ke folder projek anda
-![]()
+
+![](https://raw.githubusercontent.com/wowotek/MyPhoneBook/master/misc/img/1.png)
 
