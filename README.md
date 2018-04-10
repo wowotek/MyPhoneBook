@@ -1,4 +1,6 @@
-# MyPhoneBook
+![Logo](https://raw.githubusercontent.com/wowotek/MyPhoneBook/7dd5e9d08647d3598db6334ccb18f91c66cd7c85/src/gui/img/Text_Logo_Resize.png)
+
+---
 MyPhoneBook adalah Aplikasi yang awalnya dibuat untuk memenuhi Tugas Rancang Kelompok Pemrograman UKSW.
 Sekarang Aplikasi ini adalah OpenSource
 
